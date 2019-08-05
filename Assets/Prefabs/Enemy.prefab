@@ -19,7 +19,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4185591893589428}
-  - component: {fileID: 195227747852943660}
   - component: {fileID: 114973851313481638}
   - component: {fileID: 135233317483941680}
   - component: {fileID: 114800110824495874}
@@ -157,6 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6f83824ab063a46860816754c05db7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 5
   strength: 5
   goal: {fileID: 0}
 --- !u!135 &135233317483941680
@@ -171,27 +171,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.2
   m_Center: {x: 0, y: 0, z: 0}
---- !u!195 &195227747852943660
-NavMeshAgent:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1085993371204058}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.2
-  m_Speed: 1
-  m_Acceleration: 100
-  avoidancePriority: 50
-  m_AngularSpeed: 0
-  m_StoppingDistance: 3
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 0
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!212 &212619869064730240
 SpriteRenderer:
   m_ObjectHideFlags: 1

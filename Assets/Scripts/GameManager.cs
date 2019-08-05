@@ -1,6 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour {
+
+    public World2D world2D;
 
     private float lifeLeft = 100;
 
@@ -15,4 +18,5 @@ public class GameManager : MonoBehaviour {
         Debug.Log("you got served");
     }
 
+   
 }
