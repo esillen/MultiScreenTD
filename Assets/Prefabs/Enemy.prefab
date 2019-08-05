@@ -22,6 +22,8 @@ GameObject:
   - component: {fileID: 195227747852943660}
   - component: {fileID: 114973851313481638}
   - component: {fileID: 135233317483941680}
+  - component: {fileID: 114800110824495874}
+  - component: {fileID: 114905553299796146}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: ENEMY
@@ -91,6 +93,59 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114800110824495874
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1085993371204058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 227
+    i1: 18
+    i2: 186
+    i3: 139
+    i4: 157
+    i5: 236
+    i6: 215
+    i7: 36
+    i8: 250
+    i9: 29
+    i10: 89
+    i11: 220
+    i12: 184
+    i13: 8
+    i14: 69
+    i15: 53
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &114905553299796146
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1085993371204058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.033333335
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 0.46
 --- !u!114 &114973851313481638
 MonoBehaviour:
   m_ObjectHideFlags: 1

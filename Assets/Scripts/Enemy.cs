@@ -9,6 +9,11 @@ public class Enemy : MonoBehaviour {
     private GameManager gameManager;
 
     private void Start() {
+        if(CustomNetworkManager.isServer == false) {
+            this.enabled = false;
+            return;
+        }
+
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.SetDestination(new Vector3(goal.position.x, 0, transform.position.z));
     }

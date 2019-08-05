@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Networking;
 
 [RequireComponent(typeof(DifficultySettings))]
-public class EnemySpawner : MonoBehaviour {
+public class EnemySpawner : NetworkBehaviour {
 
     public BoxCollider spawnAreaBoxCollider;
     public GameObject enemyPrefab;
@@ -11,8 +12,8 @@ public class EnemySpawner : MonoBehaviour {
 
     private DifficultySettings difficultySettings;
 
-
-    private void Start() {
+    // Only called when everybode has been connected
+    public void startGame() {
         difficultySettings = GetComponent<DifficultySettings>();
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnEnemyGroupRoutine());
@@ -46,6 +47,8 @@ public class EnemySpawner : MonoBehaviour {
                 Random.Range(spawnAreaBoxCollider.bounds.min.z, spawnAreaBoxCollider.bounds.max.z));
         GameObject enemyGameObject = Instantiate(enemyPrefab, randomPositionInSpawnArea, Quaternion.identity);
         enemyGameObject.GetComponent<Enemy>().Initialize(goal, gameManager);
+
+        NetworkServer.Spawn(enemyGameObject); // Spawn it on the network
     }
 
 }

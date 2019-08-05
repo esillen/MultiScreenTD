@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Arrow : MonoBehaviour {
+public class Arrow : ProjectileBase {
 
     public float speed = 5;
 
@@ -13,6 +13,7 @@ public class Arrow : MonoBehaviour {
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag(Constants.Tags.ENEMY)) {
             other.GetComponent<Enemy>().TakeDamage();
+            destroyProjectileOnClients();
             Destroy(gameObject);
         }
     }
