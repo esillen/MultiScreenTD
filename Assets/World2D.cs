@@ -10,6 +10,7 @@ public class World2D : MonoBehaviour {
     public GameObject start;
     public GameObject goal;
     public DimensionsManager dimensionsManager;
+    public CameraLocationPicker cameraLocationPicker;
     public GameObject towerPrefab;
 
     private List<GameObject> towers;
@@ -21,7 +22,6 @@ public class World2D : MonoBehaviour {
     }
 
     public void UpdateDimensions() {
-
         grass.size = dimensionsManager.GrassDimensions;
         path.size = dimensionsManager.PathDimensions;
         start.transform.localScale = dimensionsManager.StartAndGoalDimensions;
@@ -32,6 +32,7 @@ public class World2D : MonoBehaviour {
         finishGraphic.transform.localScale = dimensionsManager.FinishGraphicScale;
         finishGraphic.size = dimensionsManager.finishGraphicSize;
         SpawnTowers();
+        cameraLocationPicker.CreateNewLocationsAndButtons(dimensionsManager.GetAllPositions());
     }
 
     private void SpawnTowers()
@@ -48,7 +49,7 @@ public class World2D : MonoBehaviour {
 
             // Spawn top towers
             Vector3 topTowerPosition = new Vector3(columnXPosition, 0, dimensionsManager.TopZPosition);
-            GameObject spawnedTopTower = Instantiate(towerPrefab, topTowerPosition, Quaternion.identity);
+            GameObject spawnedTopTower = Instantiate(towerPrefab, topTowerPosition, Quaternion.Euler(0, 180, 0));
             towers.Add(spawnedTopTower);
 
             // Spawn bottom towers
