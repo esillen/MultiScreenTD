@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
-using UnityEngine.AI;
+//using UnityEngine.AI;
 
+// Commented out stuff belongs to a version that used navmesh.
 public class Enemy : MonoBehaviour {
 
+    public float speed = 5;
     public float strength = 5;
     public Transform goal;
-    private NavMeshAgent navMeshAgent;
+    // private NavMeshAgent navMeshAgent;
     private GameManager gameManager;
 
     private void Start() {
@@ -14,8 +16,8 @@ public class Enemy : MonoBehaviour {
             return;
         }
 
-        navMeshAgent = GetComponent<NavMeshAgent>();
-        navMeshAgent.SetDestination(new Vector3(goal.position.x, 0, transform.position.z));
+        // navMeshAgent = GetComponent<NavMeshAgent>();
+        // navMeshAgent.SetDestination(new Vector3(goal.position.x, 0, transform.position.z));
     }
 
     public void Initialize(Transform goal, GameManager gameManager) {
@@ -24,7 +26,9 @@ public class Enemy : MonoBehaviour {
     }
 
     private void Update() {
-        if (navMeshAgent.remainingDistance < 3) {
+        transform.position = transform.position + transform.right * speed * Time.deltaTime;
+        //if (navMeshAgent.remainingDistance < 3) {
+        if ((transform.position - goal.position).magnitude < 3) { 
             gameManager.TakeDamage(strength);
             Destroy(gameObject);
         }
