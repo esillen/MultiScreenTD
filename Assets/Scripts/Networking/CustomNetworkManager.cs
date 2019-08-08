@@ -14,6 +14,9 @@ public class CustomNetworkManager : NetworkManager {
 
     #region Server
     public override void OnServerConnect(NetworkConnection conn) {
+        if (isConnected)
+            return;
+
         isServer = true;
         singleton = this;
         isConnected = true;
@@ -32,8 +35,11 @@ public class CustomNetworkManager : NetworkManager {
     }
     #endregion
 
-    #region Server
+    #region Client
     public override void OnClientConnect(NetworkConnection conn) {
+        if (isConnected)
+            return;
+
         singleton = this;
         isConnected = true;
         base.OnClientConnect(conn);
@@ -41,6 +47,7 @@ public class CustomNetworkManager : NetworkManager {
         GetComponent<NetworkManagerHUD>().showGUI = false;
         initManagers(new GameObject[] { universalManagers, clientManagers });
         NetworkManager.singleton.client.RegisterHandler((short)CustomProtocol.RestartGame, handleRestartGameMsg);
+        print("Client connected");
     }
 
     private void handleRestartGameMsg(NetworkMessage msg) {

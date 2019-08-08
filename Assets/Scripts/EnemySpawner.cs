@@ -58,7 +58,8 @@ public class EnemySpawner : BaseNetworkManager {
         newEnemy.Initialize(goal, gameManager, idCounter++);
         newEnemy.transform.LookAt(goal.transform);
 
-        NetworkUtils.cSpawnEnemyMsg(EnemyType.Soldier, randomPositionInSpawnArea, newEnemy.transform.localEulerAngles, newEnemy.speed, newEnemy.id);
+        SpawnEnemyMsg msg = NetworkUtils.cSpawnEnemyMsg(EnemyType.Soldier, randomPositionInSpawnArea, newEnemy.transform.localEulerAngles, newEnemy.speed, newEnemy.id);
+        NetworkServer.SendToAll((short)CustomProtocol.SpawnEnemyMsg, msg);
     }
 
 }

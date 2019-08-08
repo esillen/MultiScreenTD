@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VisualArrow : VisualObject {
+public class VisualSoldier : VisualObject {
 
     public override void destroyVisualObject() {
         Destroy(this.gameObject);
     }
-
+    
 }
