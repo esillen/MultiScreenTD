@@ -18,10 +18,25 @@ public class DimensionsManager : MonoBehaviour {
     private float marginRight = 0.5066666f;
 
 
-    public float Width => (screenWidth + marginLeft + marginRight) * roadLength;
-    public float Height => (screenHeight + marginTop + marginBottom) * 3;
-    public Vector2 GrassDimensions => new Vector2(Width, Height);
-    public Vector2 PathDimensions => new Vector2(Width, Height / 3f);
+    public float Width() { return (screenWidth + marginLeft + marginRight) * roadLength; }
+    public float Height() { return (screenHeight + marginTop + marginBottom) * 3; }
+    public Vector2 GrassDimensions() { return new Vector2(Width(), Height()); }
+    public Vector2 PathDimensions() { return new Vector2(Width(), Height() / 3f); }
+
+
+    public float TopZPosition() { return screenHeight + marginTop + marginBottom; }
+    public float BottomZPosition() { return -TopZPosition(); }
+
+    public Vector3 StartAndGoalDimensions() { return new Vector3(Height() / 3f, 1, Height() / 3f); }
+    public Vector3 StartPosition() { return new Vector3(-(Width() / 2f + StartAndGoalDimensions().x / 2f), 0, 0); }
+    public Vector3 GoalPosition() {return new Vector3(Width() / 2f + StartAndGoalDimensions().x / 2f, 0, 0);}
+
+    // just determines how the finish graphic should look like
+    public Vector2 finishGraphicSize() {
+        return new Vector2(4, 10);
+    }
+    public Vector3 FinishGraphicScale() {return new Vector3(screenHeight / finishGraphicSize().y, screenHeight / finishGraphicSize().y, 1);}
+    public Vector3 FinishGraphicsPosition() { return new Vector3((Width() / 2f) - (finishGraphicSize().x / 8) - marginRight / 2, 0, 0); } // Wow my math is not strong today. This is incorrect but works...
 
     // Column starting from 0.
     public float ColumnXPosition(int column) {
@@ -30,26 +45,14 @@ public class DimensionsManager : MonoBehaviour {
         return xPos;
     }
 
-    public float TopZPosition => screenHeight + marginTop + marginBottom;
-    public float BottomZPosition => -TopZPosition;
-
-    public Vector3 StartAndGoalDimensions => new Vector3(Height / 3f, 1, Height / 3f);
-    public Vector3 StartPosition => new Vector3(-(Width / 2f + StartAndGoalDimensions.x / 2f), 0, 0);
-    public Vector3 GoalPosition => new Vector3(Width / 2f + StartAndGoalDimensions.x / 2f, 0, 0);
-
-    // just determines how the finish graphic should look like
-    public Vector2 finishGraphicSize => new Vector2(4, 10);
-    public Vector3 FinishGraphicScale => new Vector3(screenHeight / finishGraphicSize.y, screenHeight / finishGraphicSize.y, 1);
-    public Vector3 FinishGraphicsPosition => new Vector3((Width / 2f) - (finishGraphicSize.x / 8) - marginRight / 2, 0, 0); // Wow my math is not strong today. This is incorrect but works...
-
     public List<Vector3> GetAllPositions() {
         List<Vector3> allPositions = new List<Vector3>();
         for (int column = 0; column < roadLength; column++) {
-            allPositions.Add(new Vector3(ColumnXPosition(column), 0, TopZPosition));
+            allPositions.Add(new Vector3(ColumnXPosition(column), 0, TopZPosition()));
             allPositions.Add(new Vector3(ColumnXPosition(column), 0, 0));
-            allPositions.Add(new Vector3(ColumnXPosition(column), 0, BottomZPosition));
+            allPositions.Add(new Vector3(ColumnXPosition(column), 0, BottomZPosition()));
         }
         return allPositions;
     }
-    
+
 }

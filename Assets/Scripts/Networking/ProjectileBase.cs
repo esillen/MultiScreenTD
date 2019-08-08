@@ -11,6 +11,6 @@ public abstract class ProjectileBase : MonoBehaviour {
     }
 
     protected void destroyProjectileOnClients() {
-        ServerFireManager.onProjectileDestroyed(id);
+        ServerProjectileManager.onProjectileDestroyed(id);
     }
 }

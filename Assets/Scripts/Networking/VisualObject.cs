@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class VisualProjectile : MonoBehaviour {
+public abstract class VisualObject : MonoBehaviour {
 
     public float speed;
     public uint id;
@@ -11,5 +11,5 @@ public abstract class VisualProjectile : MonoBehaviour {
         this.speed = speed; this.id = id;
     }
 
-    public abstract void destroyProjectile();
+    public abstract void destroyVisualObject();
 }

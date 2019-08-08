@@ -7,19 +7,32 @@ using UnityEngine.Networking;
 public class NetworkUtils : MonoBehaviour {
     public static FireProjectileMsg cFireProjectileMsg(ProjectileType type, Vector3 startPos, Vector3 dir, float speed, uint id=0) {
         return new FireProjectileMsg() {
-            type = type, startPos = startPos, direction = dir, speed = speed, id = id
+            type = type, details = new SpawnedObject() {
+                pos = startPos, dir = dir, speed = speed, id = id
+            }
         };
     }
 
+    public static SpawnEnemyMsg cSpawnEnemyMsg(EnemyType type, Vector3 position, Vector3 direction, float speed, uint id=0){
+        return new SpawnEnemyMsg() {
+            type = type, details = new SpawnedObject() {
+                pos = position, dir = direction, speed = speed, id = id
+            }
+        };
+    }
 }
 
 
 #region Messages
 public class FireProjectileMsg : MessageBase {
     public ProjectileType type;
-    public Vector3 startPos, direction;
-    public float speed;
-    public uint id;
+    public SpawnedObject details;
+}
+
+
+public class SpawnEnemyMsg : MessageBase {
+    public EnemyType type;
+    public SpawnedObject details;
 }
 
 public class TradeMsg : MessageBase {
@@ -39,6 +52,11 @@ public class UintMsg : MessageBase { public uint x; }
 
 #region Structs
 public struct PlayerID {public int col, pos;}
+public struct SpawnedObject {
+    public uint id;
+    public float speed;
+    public Vector3 pos, dir;
+}
 #endregion
 
 #region Enums
@@ -52,6 +70,9 @@ public enum CustomProtocol : short{
     CameraMessage = 5002,
     CurrencyMessage = 5003,
     EffectsMessage = 5004,
+    SpawnEnemyMsg = 5005,
+    DestroyEnemyMsg = 5006,
+    RestartGame = 5007,
 }
 
 public enum ProjectileType {
@@ -61,4 +82,9 @@ public enum ProjectileType {
 public enum EffectType {
     FloatingText
 }
+
+public enum EnemyType {
+    Soldier
+}
+
 #endregion

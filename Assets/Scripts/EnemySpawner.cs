@@ -1,19 +1,28 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
 [RequireComponent(typeof(DifficultySettings))]
-public class EnemySpawner : NetworkBehaviour {
+public class EnemySpawner : BaseNetworkManager {
 
     public BoxCollider spawnAreaBoxCollider;
     public GameObject enemyPrefab;
     public Transform goal;
     public GameManager gameManager;
 
+    private uint idCounter = 0;
     private DifficultySettings difficultySettings;
+    private Dictionary<uint, Enemy> spawnedEnemies = new Dictionary<uint, Enemy>();
 
-    // Only called when everybode has been connected
-    public void startGame() {
+    public override void init() {}
+    public override void restartGame() {
+        foreach (uint id in spawnedEnemies.Keys)
+            Destroy(spawnedEnemies[id]);
+        spawnedEnemies.Clear();
+        StopAllCoroutines();
+
+        idCounter = 0;
         difficultySettings = GetComponent<DifficultySettings>();
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnEnemyGroupRoutine());
@@ -45,10 +54,11 @@ public class EnemySpawner : NetworkBehaviour {
                 Random.Range(spawnAreaBoxCollider.bounds.min.x, spawnAreaBoxCollider.bounds.max.x),
                 0,
                 Random.Range(spawnAreaBoxCollider.bounds.min.z, spawnAreaBoxCollider.bounds.max.z));
-        GameObject enemyGameObject = Instantiate(enemyPrefab, randomPositionInSpawnArea, Quaternion.identity);
-        enemyGameObject.GetComponent<Enemy>().Initialize(goal, gameManager);
+        Enemy newEnemy = Instantiate(enemyPrefab, randomPositionInSpawnArea, Quaternion.identity).GetComponent<Enemy>();
+        newEnemy.Initialize(goal, gameManager, idCounter++);
+        newEnemy.transform.LookAt(goal.transform);
 
-        NetworkServer.Spawn(enemyGameObject); // Spawn it on the network
+        NetworkUtils.cSpawnEnemyMsg(EnemyType.Soldier, randomPositionInSpawnArea, newEnemy.transform.localEulerAngles, newEnemy.speed, newEnemy.id);
     }
 
 }

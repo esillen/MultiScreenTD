@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DifficultySettings : MonoBehaviour {
+public class DifficultySettings : BaseNetworkManager {
 
     // "Trickling" behaviour. Enemies spawn constantly with a bit of variance. 
     public float tricklingSpawnDelayMean = 2;
@@ -14,6 +14,16 @@ public class DifficultySettings : MonoBehaviour {
     public float groupSpawnSizeTimeModifier = 0.1f;
     public float groupSpawnDelay = 8;
     public float groupSpawnDelayTimeModifier = -0.1f;
+
+    void Start() {
+        this.enabled = false;
+    }
+
+    public override void init() {}
+    public override void restartGame() {
+        this.enabled = true;
+        groupSpawnSize = 5;
+    }
 
     private void Update() {
         tricklingSpawnDelayMean = Mathf.Max(tricklingSpawnDelayMean + tricklingSpawnDelayMeanTimeModifier * Time.deltaTime, 0);

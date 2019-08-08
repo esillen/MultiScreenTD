@@ -19,10 +19,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4185591893589428}
-  - component: {fileID: 114973851313481638}
   - component: {fileID: 135233317483941680}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: VisualSoldier
   m_TagString: ENEMY
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90,23 +89,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114973851313481638
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1085993371204058}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f6f83824ab063a46860816754c05db7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  goal: {fileID: 0}
-  speed: 5
-  damage: 5
-  reward: 1
-  health: 5
-  id: 0
 --- !u!135 &135233317483941680
 SphereCollider:
   m_ObjectHideFlags: 1

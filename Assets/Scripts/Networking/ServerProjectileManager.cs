@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class ServerFireManager : MonoBehaviour {
+public class ServerProjectileManager : BaseNetworkManager {
 
     public GameObject playerArrow;
     private static uint projectileIDCounter = 0;
 
     private Dictionary<ProjectileType, GameObject> projectilePrefabs = new Dictionary<ProjectileType, GameObject>();
+    private Dictionary<uint, ProjectileBase> spawnedProjectiles = new Dictionary<uint, ProjectileBase>();
 
-    public void init() {
+    public override void init() {
         projectilePrefabs.Add(ProjectileType.PlayerArrow, playerArrow);
         NetworkServer.RegisterHandler((short)CustomProtocol.FireProjectile, handleFireProjectileMsg);
     }
@@ -25,11 +26,20 @@ public class ServerFireManager : MonoBehaviour {
     #region Client Communication
     private void handleFireProjectileMsg(NetworkMessage data) {
         FireProjectileMsg msg = data.ReadMessage<FireProjectileMsg>();
-        GameObject obj = Instantiate(projectilePrefabs[msg.type], msg.startPos, Quaternion.LookRotation(msg.direction)); // Spawn real projectile on only server
-        msg.id = getNewProjectileID(); //Give the new projectile an ID, so we can locate and destroy it later
-        obj.GetComponent<ProjectileBase>().init(msg.id);
+        ProjectileBase obj = Instantiate(projectilePrefabs[msg.type], msg.details.pos, Quaternion.LookRotation(msg.details.dir)).GetComponent<ProjectileBase>(); // Spawn real projectile on only server
+        msg.details.id = getNewProjectileID(); //Give the new projectile an ID, so we can locate and destroy it later
+        spawnedProjectiles.Add(msg.details.id, obj);
+        obj.init(msg.details.id);
+
+        NetworkServer.SendToAll((short)CustomProtocol.FireProjectile, msg);
     }
     #endregion
 
     public static uint getNewProjectileID() { return projectileIDCounter++;}
+
+    public override void restartGame() {
+        foreach (uint id in spawnedProjectiles.Keys)
+            Destroy(spawnedProjectiles[id].gameObject);
+        spawnedProjectiles.Clear();
+    }
 }

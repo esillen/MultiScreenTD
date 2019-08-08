@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class NetworkEconomySystem : NetworkBehaviour {
+public class NetworkEconomySystem : BaseNetworkManager {
 
     public UIManager theUIManager;
     public int startCurrency = 100;
@@ -14,7 +14,7 @@ public class NetworkEconomySystem : NetworkBehaviour {
 
 
 
-    public void init() {
+    public override void init() {
         purchusases.Add(PurchaseType.ArrowTower, buyArrowTower);
         if (CustomNetworkManager.isServer)
             NetworkServer.RegisterHandler((short)CustomProtocol.CurrencyMessage, handleTradeMsg);
@@ -31,7 +31,7 @@ public class NetworkEconomySystem : NetworkBehaviour {
     #endregion
 
     #region Server
-    public void onStartNewGame() {
+    public override void restartGame() {
         currency = startCurrency;
         broadcastCurrentCurrencyLevel();
     }
@@ -57,4 +57,6 @@ public class NetworkEconomySystem : NetworkBehaviour {
         broadcastCurrentCurrencyLevel();
     }
     #endregion
+
+
 }

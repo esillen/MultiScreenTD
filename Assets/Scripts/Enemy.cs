@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 //using UnityEngine.AI;
 
-// Commented out stuff belongs to a version that used navmesh.
 public class Enemy : MonoBehaviour {
 
-    public float speed = 5;
-    public float strength = 5;
     public Transform goal;
-    // private NavMeshAgent navMeshAgent;
+    public float speed = 5;
+    public int damage = 5;
+    public int reward = 1;
+    public int health = 5;
+    public uint id;
+
     private GameManager gameManager;
 
     private void Start() {
@@ -15,27 +18,33 @@ public class Enemy : MonoBehaviour {
             this.enabled = false;
             return;
         }
-
-        // navMeshAgent = GetComponent<NavMeshAgent>();
-        // navMeshAgent.SetDestination(new Vector3(goal.position.x, 0, transform.position.z));
     }
 
-    public void Initialize(Transform goal, GameManager gameManager) {
-        this.goal = goal;
-        this.gameManager = gameManager;
+    public void Initialize(Transform goal, GameManager gameManager, uint id) {
+        this.id = id; this.goal = goal; this.gameManager = gameManager;
     }
 
     private void Update() {
         transform.position = transform.position + transform.right * speed * Time.deltaTime;
-        //if (navMeshAgent.remainingDistance < 3) {
-        if ((transform.position - goal.position).magnitude < 3) { 
-            gameManager.TakeDamage(strength);
-            Destroy(gameObject);
+        if ((transform.position - goal.position).magnitude < 3)
+            enterGoal();
+    }
+
+    public void enterGoal() {
+        gameManager.TakeDamage(damage);
+        removeFromServer();
+    }
+
+    public void TakeDamage(int dmg) {
+        health -= dmg;
+        if(health <= 0) {
+            RewardSystem.getReward(reward);
+            removeFromServer();
         }
     }
 
-    public void TakeDamage() {
-        RewardSystem.getReward(level);
+    public void removeFromServer() {
+        NetworkServer.SendToAll((short)CustomProtocol.DestroyEnemyMsg, new UintMsg() { x = id });
         Destroy(gameObject);
     }
 

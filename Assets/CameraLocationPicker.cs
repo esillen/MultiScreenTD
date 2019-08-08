@@ -2,13 +2,23 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CameraLocationPicker : MonoBehaviour {
+public class CameraLocationPicker : BaseNetworkManager {
 
-    public List<GameObject> buttons;
+    public List<GameObject> buttons = new List<GameObject>();
     public Transform buttonsParent;
     public GameObject buttonPrefab;
 
     private Vector3 targetLocation = Vector3.up * 10;
+
+    public override void init() {}
+    public override void restartGame(){ }
+
+    private void Update() {
+        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetLocation, 0.999f * Time.deltaTime);
+        if ((Camera.main.transform.position - targetLocation).magnitude < 0.01f) {
+            Camera.main.transform.position = targetLocation;
+        }
+    }
 
     public void CreateNewLocationsAndButtons(List<Vector3> newPositions) {
         foreach (GameObject button in buttons) {
@@ -25,19 +35,11 @@ public class CameraLocationPicker : MonoBehaviour {
         }
     }
 
-    private void Start() {
-        buttons = new List<GameObject>();
-    }
 
     private void SetActionForButton(Button button, Vector3 newCameraLocation) {
         button.onClick.AddListener(() => targetLocation = newCameraLocation);
     }
 
-    private void Update() {
-        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetLocation, 0.999f * Time.deltaTime);
-        if ((Camera.main.transform.position - targetLocation).magnitude < 0.01f) {
-            Camera.main.transform.position = targetLocation;
-        }
-    }
+
 
 }
