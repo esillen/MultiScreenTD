@@ -5,5 +5,5 @@ using UnityEngine;
 public abstract class BaseNetworkManager : MonoBehaviour {
 
     public virtual void init() { }
-    public virtual void restartGame() { }
+    public virtual void restartGame(RestartMessage restartMessage) { }
 }

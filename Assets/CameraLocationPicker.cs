@@ -11,7 +11,7 @@ public class CameraLocationPicker : BaseNetworkManager {
     private Vector3 targetLocation = Vector3.up * 10;
 
     public override void init() {}
-    public override void restartGame(){ }
+    public override void restartGame(RestartMessage restartMessage) { }
 
     private void Update() {
         Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetLocation, 0.999f * Time.deltaTime);

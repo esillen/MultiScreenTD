@@ -48,6 +48,17 @@ public class EffectMsg : MessageBase {
 }
 
 public class UintMsg : MessageBase { public uint x; }
+
+public class RestartMessage : MessageBase {
+    public int roadLength;
+    public float screenWidth;
+    public float screenHeight;
+    public float marginTop;
+    public float marginBottom;
+    public float marginLeft;
+    public float marginRight;
+}
+
 #endregion
 
 #region Structs

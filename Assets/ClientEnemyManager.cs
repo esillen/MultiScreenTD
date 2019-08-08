@@ -16,7 +16,7 @@ public class ClientEnemyManager : BaseNetworkManager {
         NetworkManager.singleton.client.RegisterHandler((short)CustomProtocol.DestroyEnemyMsg, handleEnemyDestroyedMsg);
     }
 
-    public override void restartGame() {
+    public override void restartGame(RestartMessage restartMessage) {
         foreach (uint id in spawnedEnemies.Keys)
             Destroy(spawnedEnemies[id]);
         spawnedEnemies.Clear();
