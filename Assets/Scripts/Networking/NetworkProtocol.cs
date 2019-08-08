@@ -11,9 +11,10 @@ public class NetworkUtils : MonoBehaviour {
         };
     }
 
-
 }
 
+
+#region Messages
 public class FireProjectileMsg : MessageBase {
     public ProjectileType type;
     public Vector3 startPos, direction;
@@ -21,17 +22,43 @@ public class FireProjectileMsg : MessageBase {
     public uint id;
 }
 
-public class UintMsg : MessageBase {
-    public uint x;
+public class TradeMsg : MessageBase {
+    public PurchaseType type;
+    public PlayerID id;
+    public int cost;
 }
 
+public class EffectMsg : MessageBase {
+    public EffectType type;
+    public string textData;
+    public Vector3 position;
+}
+
+public class UintMsg : MessageBase { public uint x; }
+#endregion
+
+#region Structs
+public struct PlayerID {public int col, pos;}
+#endregion
+
+#region Enums
+public enum PurchaseType {
+    ArrowTower, 
+}
 
 public enum CustomProtocol : short{
     FireProjectile = 5000,
     DestroyProjectile = 5001,
     CameraMessage = 5002,
+    CurrencyMessage = 5003,
+    EffectsMessage = 5004,
 }
 
 public enum ProjectileType {
     PlayerArrow
 }
+
+public enum EffectType {
+    FloatingText
+}
+#endregion

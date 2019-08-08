@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour {
     private GameManager gameManager;
 
     private void Start() {
-        if(CustomNetworkManager.isServer == false) {
+        if(CustomNetworkManager.isServer == false) { // Should not be needed in the future
             this.enabled = false;
             return;
         }
@@ -35,6 +35,7 @@ public class Enemy : MonoBehaviour {
     }
 
     public void TakeDamage() {
+        RewardSystem.getReward(level);
         Destroy(gameObject);
     }
 

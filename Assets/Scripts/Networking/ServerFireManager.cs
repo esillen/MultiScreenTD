@@ -28,7 +28,6 @@ public class ServerFireManager : MonoBehaviour {
         GameObject obj = Instantiate(projectilePrefabs[msg.type], msg.startPos, Quaternion.LookRotation(msg.direction)); // Spawn real projectile on only server
         msg.id = getNewProjectileID(); //Give the new projectile an ID, so we can locate and destroy it later
         obj.GetComponent<ProjectileBase>().init(msg.id);
-        NetworkServer.SendToAll((short)CustomProtocol.FireProjectile, msg);
     }
     #endregion
 
