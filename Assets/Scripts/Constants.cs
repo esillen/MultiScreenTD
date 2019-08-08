@@ -10,4 +10,8 @@
         public const string TOWER_AIM_ARCH = "TOWER_AIM_ARCH";
         public const string ENEMY = "ENEMY";
     }
+
+    public static class PlayerPrefsKeys {
+        public const string IP = "IP";
+    }
 }

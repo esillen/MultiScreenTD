@@ -11,6 +11,10 @@ public class CustomNetworkManager : NetworkManager {
     public static bool isServer = false, isConnected = false;
     public GameObject universalManagers, clientManagers, serverManagers;
 
+    public void Start() {
+        networkAddress = PlayerPrefs.GetString(Constants.PlayerPrefsKeys.IP);
+    }
+
 
     #region Server
     public override void OnServerConnect(NetworkConnection conn) {
@@ -40,6 +44,7 @@ public class CustomNetworkManager : NetworkManager {
         if (isConnected)
             return;
 
+        PlayerPrefs.SetString(Constants.PlayerPrefsKeys.IP, this.networkAddress);
         singleton = this;
         isConnected = true;
         base.OnClientConnect(conn);
