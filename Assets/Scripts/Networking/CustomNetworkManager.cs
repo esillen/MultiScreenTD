@@ -11,6 +11,10 @@ public class CustomNetworkManager : NetworkManager {
     public static bool isServer = false, isConnected = false;
     public GameObject universalManagers, clientManagers, serverManagers;
 
+    public void Start() {
+        networkAddress = PlayerPrefs.GetString(Constants.PlayerPrefsKeys.IP);
+    }
+
 
     #region Server
     public override void OnServerConnect(NetworkConnection conn) {
@@ -27,11 +31,11 @@ public class CustomNetworkManager : NetworkManager {
         print("Server connected");
     }
 
-    public static void restartGame() {
+    public static void restartGame(RestartMessage restartMessage) {
         if (isServer == false)
             return;
-        NetworkServer.SendToAll((short)CustomProtocol.RestartGame, new UintMsg());
-        singleton.restartManagers(new GameObject[] { singleton.universalManagers, singleton.serverManagers });
+        NetworkServer.SendToAll((short)CustomProtocol.RestartGame, restartMessage);
+        singleton.restartManagers(new GameObject[] { singleton.universalManagers, singleton.serverManagers }, restartMessage);
     }
     #endregion
 
@@ -40,6 +44,7 @@ public class CustomNetworkManager : NetworkManager {
         if (isConnected)
             return;
 
+        PlayerPrefs.SetString(Constants.PlayerPrefsKeys.IP, this.networkAddress);
         singleton = this;
         isConnected = true;
         base.OnClientConnect(conn);
@@ -52,13 +57,14 @@ public class CustomNetworkManager : NetworkManager {
 
     private void handleRestartGameMsg(NetworkMessage msg) {
         Debug.LogError("Restarting managers");
-        restartManagers(new GameObject[] { singleton.universalManagers, singleton.clientManagers });
+        RestartMessage restartMessage = msg.ReadMessage<RestartMessage>();
+        restartManagers(new GameObject[] { singleton.universalManagers, singleton.clientManagers }, restartMessage);
     }
     #endregion
 
     #region Utils
     private void initManagers(GameObject[] objs) {iterateManagers(objs, (BaseNetworkManager b) =>  b.init());}
-    private void restartManagers(GameObject[] objs) { iterateManagers(objs, (BaseNetworkManager b) => b.restartGame()); }
+    private void restartManagers(GameObject[] objs, RestartMessage restartMessage) { iterateManagers(objs, (BaseNetworkManager b) => b.restartGame(restartMessage)); }
     private void iterateManagers(GameObject[] managerParents, Action<BaseNetworkManager> a) {
         foreach (GameObject g in managerParents)
             foreach (BaseNetworkManager manager in g.transform.GetComponentsInChildren<BaseNetworkManager>())

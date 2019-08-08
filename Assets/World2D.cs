@@ -9,27 +9,30 @@ public class World2D : BaseNetworkManager {
     public SpriteRenderer finishGraphic;
     public GameObject start;
     public GameObject goal;
-    public DimensionsManager dimensionsManager;
     public CameraLocationPicker cameraLocationPicker;
     public GameObject towerPrefab;
 
     private List<GameObject> towers = new List<GameObject>();
 
     public override void init() {}
-    public override void restartGame(){UpdateDimensions();}
+    public override void restartGame(RestartMessage restartMessage) {
+        // Set correct values for the dimension manager from the restart message.
+        DimensionsManager.UpdateFromRestartMessage(restartMessage);
+        UpdateDimensions();
+    }
 
     public void UpdateDimensions() {
-        grass.size = dimensionsManager.GrassDimensions();
-        path.size = dimensionsManager.PathDimensions();
-        start.transform.localScale = dimensionsManager.StartAndGoalDimensions();
-        start.transform.position = dimensionsManager.StartPosition();
-        goal.transform.localScale = dimensionsManager.StartAndGoalDimensions();
-        goal.transform.position = dimensionsManager.GoalPosition();
-        finishGraphic.transform.position = dimensionsManager.FinishGraphicsPosition();
-        finishGraphic.transform.localScale = dimensionsManager.FinishGraphicScale();
-        finishGraphic.size = dimensionsManager.finishGraphicSize();
+        grass.size = DimensionsManager.GrassDimensions();
+        path.size = DimensionsManager.PathDimensions();
+        start.transform.localScale = DimensionsManager.StartAndGoalDimensions();
+        start.transform.position = DimensionsManager.StartPosition();
+        goal.transform.localScale = DimensionsManager.StartAndGoalDimensions();
+        goal.transform.position = DimensionsManager.GoalPosition();
+        finishGraphic.transform.position = DimensionsManager.FinishGraphicsPosition();
+        finishGraphic.transform.localScale = DimensionsManager.FinishGraphicScale();
+        finishGraphic.size = DimensionsManager.finishGraphicSize();
         SpawnTowers();
-        cameraLocationPicker.CreateNewLocationsAndButtons(dimensionsManager.GetAllPositions());
+        cameraLocationPicker.CreateNewLocationsAndButtons(DimensionsManager.GetAllPositions());
     }
 
     private void SpawnTowers(){
@@ -38,16 +41,16 @@ public class World2D : BaseNetworkManager {
             Destroy(tower);
         towers.Clear();
 
-        for (int i = 0; i < dimensionsManager.roadLength; i++){
-            float columnXPosition = dimensionsManager.ColumnXPosition(i);
+        for (int i = 0; i < DimensionsManager.roadLength; i++){
+            float columnXPosition = DimensionsManager.ColumnXPosition(i);
 
             // Spawn top towers
-            Vector3 topTowerPosition = new Vector3(columnXPosition, 0, dimensionsManager.TopZPosition());
+            Vector3 topTowerPosition = new Vector3(columnXPosition, 0, DimensionsManager.TopZPosition());
             GameObject spawnedTopTower = Instantiate(towerPrefab, topTowerPosition, Quaternion.Euler(0, 180, 0));
             towers.Add(spawnedTopTower);
 
             // Spawn bottom towers
-            Vector3 bottomTowerPosition = new Vector3(columnXPosition, 0, dimensionsManager.BottomZPosition());
+            Vector3 bottomTowerPosition = new Vector3(columnXPosition, 0, DimensionsManager.BottomZPosition());
             GameObject spawnedBottomTower = Instantiate(towerPrefab, bottomTowerPosition, Quaternion.identity);
             towers.Add(spawnedBottomTower);
         }

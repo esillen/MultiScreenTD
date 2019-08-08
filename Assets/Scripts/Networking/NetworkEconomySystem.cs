@@ -31,7 +31,7 @@ public class NetworkEconomySystem : BaseNetworkManager {
     #endregion
 
     #region Server
-    public override void restartGame() {
+    public override void restartGame(RestartMessage restartMessage) {
         currency = startCurrency;
         broadcastCurrentCurrencyLevel();
     }

@@ -20,7 +20,7 @@ public class DifficultySettings : BaseNetworkManager {
     }
 
     public override void init() {}
-    public override void restartGame() {
+    public override void restartGame(RestartMessage restartMessage) {
         this.enabled = true;
         groupSpawnSize = 5;
     }
