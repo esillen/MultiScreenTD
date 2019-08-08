@@ -19,7 +19,7 @@ public class NetworkEconomySystem : BaseNetworkManager {
         if (CustomNetworkManager.isServer)
             NetworkServer.RegisterHandler((short)CustomProtocol.CurrencyMessage, handleTradeMsg);
         else
-            NetworkManager.singleton.client.RegisterHandler((short)CustomProtocol.CurrencyMessage, handleTradeMsg);
+            NetworkManager.singleton.client.RegisterHandler((short)CustomProtocol.CurrencyMessage, handleCurrencyMsg);
     }
 
 

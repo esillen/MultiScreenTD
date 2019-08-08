@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour {
     }
 
     private void Update() {
-        transform.position = transform.position + transform.right * speed * Time.deltaTime;
+        transform.position = transform.position + transform.forward * speed * Time.deltaTime;
         if ((transform.position - goal.position).magnitude < 3)
             enterGoal();
     }
