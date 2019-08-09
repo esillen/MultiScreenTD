@@ -43,3 +43,7 @@ public class DifficultySettings : BaseNetworkManager {
     }
 
 }
+
+    public override void restartGame(RestartMessage restartMessage) {
+        this.enabled = true;
+        groupSpawnSize = 5;

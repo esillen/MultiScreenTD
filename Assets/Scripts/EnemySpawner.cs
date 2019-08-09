@@ -16,7 +16,7 @@ public class EnemySpawner : BaseNetworkManager {
     private Dictionary<uint, Enemy> spawnedEnemies = new Dictionary<uint, Enemy>();
 
     public override void init() {}
-    public override void restartGame() {
+    public override void restartGame(RestartMessage restartMessage) {
         foreach (uint id in spawnedEnemies.Keys)
             Destroy(spawnedEnemies[id]);
         spawnedEnemies.Clear();
