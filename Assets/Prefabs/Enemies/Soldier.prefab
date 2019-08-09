@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114973851313481638}
   - component: {fileID: 135233317483941680}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Soldier
   m_TagString: ENEMY
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goal: {fileID: 0}
-  speed: 5
+  speed: 3
   damage: 5
   reward: 1
   health: 5

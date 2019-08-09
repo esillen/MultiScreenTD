@@ -26,8 +26,7 @@ public class ClientEnemyManager : BaseNetworkManager {
     private void handleEnemySpawnMsg(NetworkMessage msg) {
         SpawnEnemyMsg data = msg.ReadMessage<SpawnEnemyMsg>();
         VisualObject enemy = Instantiate(typeToObjects[data.type], data.details.pos, Quaternion.identity, null).GetComponent<VisualObject>();
-        enemy.transform.eulerAngles = data.details.dir;
-        enemy.init(data.details.speed, data.details.id);
+        enemy.init(data.details);
         spawnedEnemies.Add(data.details.id, enemy);
     }
 

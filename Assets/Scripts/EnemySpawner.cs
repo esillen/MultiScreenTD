@@ -44,9 +44,8 @@ public class EnemySpawner : BaseNetworkManager {
     }
 
     private void SpawnEnemyGroup(int enemiesToSpawn) {
-        for (int i = 0; i < enemiesToSpawn; i++) {
+        for (int i = 0; i < enemiesToSpawn; i++)
             SpawnEnemy();
-        }
     }
 
     private void SpawnEnemy() {
@@ -55,10 +54,10 @@ public class EnemySpawner : BaseNetworkManager {
                 0,
                 Random.Range(spawnAreaBoxCollider.bounds.min.z, spawnAreaBoxCollider.bounds.max.z));
         Enemy newEnemy = Instantiate(enemyPrefab, randomPositionInSpawnArea, Quaternion.identity).GetComponent<Enemy>();
-        newEnemy.Initialize(goal, gameManager, idCounter++);
+        newEnemy.initEnemyTarget(goal, gameManager, idCounter++);
         newEnemy.transform.LookAt(goal.transform);
 
-        SpawnEnemyMsg msg = NetworkUtils.cSpawnEnemyMsg(EnemyType.Soldier, randomPositionInSpawnArea, newEnemy.transform.localEulerAngles, newEnemy.speed, newEnemy.id);
+        SpawnEnemyMsg msg = NetworkUtils.cSpawnEnemyMsg(EnemyType.Soldier, newEnemy.transform, newEnemy.speed, newEnemy.id);
         NetworkServer.SendToAll((short)CustomProtocol.SpawnEnemyMsg, msg);
     }
 

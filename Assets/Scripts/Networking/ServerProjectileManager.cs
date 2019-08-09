@@ -26,10 +26,10 @@ public class ServerProjectileManager : BaseNetworkManager {
     #region Client Communication
     private void handleFireProjectileMsg(NetworkMessage data) {
         FireProjectileMsg msg = data.ReadMessage<FireProjectileMsg>();
-        ProjectileBase obj = Instantiate(projectilePrefabs[msg.type], msg.details.pos, Quaternion.LookRotation(msg.details.dir)).GetComponent<ProjectileBase>(); // Spawn real projectile on only server
-        msg.details.id = getNewProjectileID(); //Give the new projectile an ID, so we can locate and destroy it later
-        spawnedProjectiles.Add(msg.details.id, obj);
-        obj.init(msg.details.id);
+        ProjectileBase obj = Instantiate(projectilePrefabs[msg.type], msg.objDetails.pos, Quaternion.identity).GetComponent<ProjectileBase>(); // Spawn real projectile on only server
+        msg.objDetails.id = getNewProjectileID(); //Give the new projectile an ID, so we can locate and destroy it later
+        spawnedProjectiles.Add(msg.objDetails.id, obj);
+        obj.initProjectile(msg.objDetails, msg.projDetails);
 
         NetworkServer.SendToAll((short)CustomProtocol.FireProjectile, msg);
     }

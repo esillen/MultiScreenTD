@@ -5,18 +5,27 @@ using UnityEngine.Networking;
 
 
 public class NetworkUtils : MonoBehaviour {
-    public static FireProjectileMsg cFireProjectileMsg(ProjectileType type, Vector3 startPos, Vector3 dir, float speed, uint id=0) {
+    public static FireProjectileMsg cFireProjectileMsg(ProjectileType type, ProjectileDetails projDetails, Transform trans, float speed, Color color, uint id=0) {
+        return cFireProjectileMsg(type, projDetails, trans.position, trans.localEulerAngles, trans.localScale, speed, color, id);
+    }
+
+    public static FireProjectileMsg cFireProjectileMsg(ProjectileType type, ProjectileDetails projDetails, Vector3 pos, Vector3 rot, Vector3 scale, float speed, Color color, uint id = 0) {
         return new FireProjectileMsg() {
-            type = type, details = new SpawnedObject() {
-                pos = startPos, dir = dir, speed = speed, id = id
-            }
+            type = type, objDetails = new SpawnedObject() {
+                pos = pos, rot = rot, scale = scale, speed = speed, id = id, color = color
+            },
+            projDetails = projDetails
         };
     }
 
-    public static SpawnEnemyMsg cSpawnEnemyMsg(EnemyType type, Vector3 position, Vector3 direction, float speed, uint id=0){
+    public static SpawnEnemyMsg cSpawnEnemyMsg(EnemyType type, Transform trans, float speed, uint id=0){
+        return cSpawnEnemyMsg(type, trans.position, trans.localEulerAngles, trans.localScale, speed, id);
+    }
+
+    public static SpawnEnemyMsg cSpawnEnemyMsg(EnemyType type, Vector3 pos, Vector3 rot, Vector3 scale, float speed, uint id = 0) {
         return new SpawnEnemyMsg() {
             type = type, details = new SpawnedObject() {
-                pos = position, dir = direction, speed = speed, id = id
+                pos = pos, rot = rot, scale = scale, speed = speed, id = id
             }
         };
     }
@@ -26,9 +35,9 @@ public class NetworkUtils : MonoBehaviour {
 #region Messages
 public class FireProjectileMsg : MessageBase {
     public ProjectileType type;
-    public SpawnedObject details;
+    public SpawnedObject objDetails;
+    public ProjectileDetails projDetails;
 }
-
 
 public class SpawnEnemyMsg : MessageBase {
     public EnemyType type;
@@ -55,7 +64,12 @@ public struct PlayerID {public int col, pos;}
 public struct SpawnedObject {
     public uint id;
     public float speed;
-    public Vector3 pos, dir;
+    public Vector3 pos, rot, scale;
+    public Color color;
+}
+public struct ProjectileDetails {
+    public float range;
+    public int dmg;
 }
 #endregion
 

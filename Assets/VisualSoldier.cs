@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class VisualSoldier : VisualObject {
 
+
+
     public override void destroyVisualObject() {
         Destroy(this.gameObject);
     }

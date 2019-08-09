@@ -24,7 +24,6 @@ public class CustomNetworkManager : NetworkManager {
 
         GetComponent<NetworkManagerHUD>().showGUI = false;
         initManagers(new GameObject[] { universalManagers, serverManagers });
-        print("Server connected");
     }
 
     public static void restartGame() {
@@ -47,11 +46,9 @@ public class CustomNetworkManager : NetworkManager {
         GetComponent<NetworkManagerHUD>().showGUI = false;
         initManagers(new GameObject[] { universalManagers, clientManagers });
         NetworkManager.singleton.client.RegisterHandler((short)CustomProtocol.RestartGame, handleRestartGameMsg);
-        print("Client connected");
     }
 
     private void handleRestartGameMsg(NetworkMessage msg) {
-        Debug.LogError("Restarting managers");
         restartManagers(new GameObject[] { singleton.universalManagers, singleton.clientManagers });
     }
     #endregion

@@ -34,9 +34,9 @@ public class ClientFireManager : BaseNetworkManager {
 
     private void handleFireProjectileMsg(NetworkMessage data) {
         FireProjectileMsg msg = data.ReadMessage<FireProjectileMsg>();
-        VisualObject proj = Instantiate(visualProjectilePrefabs[msg.type], msg.details.pos, Quaternion.LookRotation(msg.details.dir)).GetComponent<VisualObject>(); // Spawn real projectile on only server
-        spawnedProjectiles.Add(msg.details.id, proj);
-        proj.init(msg.details.speed, msg.details.id);
+        VisualObject proj = Instantiate(visualProjectilePrefabs[msg.type], msg.objDetails.pos, Quaternion.identity).GetComponent<VisualObject>(); // Spawn real projectile on only server
+        spawnedProjectiles.Add(msg.objDetails.id, proj);
+        proj.init(msg.objDetails);
     }
 
 }
