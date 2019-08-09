@@ -15,6 +15,7 @@ public abstract class ProjectileBase : VisualObject {
     IEnumerator rangeTime(float range) {
         yield return new WaitForSeconds(range);
         destroyProjectileOnClients();
+        Destroy(this.gameObject);
     }
 
     protected void destroyProjectileOnClients() {

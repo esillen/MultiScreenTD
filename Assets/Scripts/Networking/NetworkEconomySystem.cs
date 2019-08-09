@@ -6,7 +6,6 @@ using UnityEngine.Networking;
 
 public class NetworkEconomySystem : BaseNetworkManager {
 
-    public UIManager theUIManager;
     public int startCurrency = 100;
 
     private int currency = 0;
@@ -26,7 +25,7 @@ public class NetworkEconomySystem : BaseNetworkManager {
     #region Client
     private void handleCurrencyMsg(NetworkMessage data) {
         int currency = (int)data.ReadMessage<UintMsg>().x;
-        theUIManager.updateCurrency(currency);
+        UIManager.singleton.updateCurrency(currency);
     }
     #endregion
 
@@ -53,7 +52,7 @@ public class NetworkEconomySystem : BaseNetworkManager {
 
     public void currencyEvent(int delta) {
         currency += delta;
-        theUIManager.updateCurrency(currency);
+        UIManager.singleton.updateCurrency(currency);
         broadcastCurrentCurrencyLevel();
     }
     #endregion
