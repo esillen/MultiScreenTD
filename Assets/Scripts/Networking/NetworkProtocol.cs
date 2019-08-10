@@ -46,7 +46,6 @@ public class SpawnEnemyMsg : MessageBase {
 
 public class TradeMsg : MessageBase {
     public PurchaseType type;
-    public PlayerID id;
     public int cost;
 }
 
@@ -86,7 +85,7 @@ public struct ProjectileDetails {
 
 #region Enums
 public enum PurchaseType {
-    ArrowTower, 
+    Damage, Cooldown, Range, Magazine
 }
 
 public enum CustomProtocol : short{
@@ -98,6 +97,7 @@ public enum CustomProtocol : short{
     SpawnEnemyMsg = 5005,
     DestroyEnemyMsg = 5006,
     RestartGame = 5007,
+    PurchuaseMsg = 5008,
 }
 
 public enum ProjectileType {

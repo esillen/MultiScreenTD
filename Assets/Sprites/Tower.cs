@@ -20,6 +20,12 @@ public class Tower : NetworkBehaviour {
     private int numArrowsLeft;
 
     private void Start() {
+        damage = DifficultySettings.singleton.startTowerDamage;
+        maxArrows = DifficultySettings.singleton.startMaxArrows;
+        range = DifficultySettings.singleton.startRange;
+        speed = DifficultySettings.singleton.startSpeed;
+        arrowRespawnRate = DifficultySettings.singleton.startArrowRespawnRate;
+
         numArrowsLeft = maxArrows;
         StartCoroutine(RegainArrow());
     }

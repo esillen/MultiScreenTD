@@ -18,8 +18,10 @@ public abstract class VisualObject : MonoBehaviour {
         transform.localScale = details.scale;
         transform.eulerAngles = details.rot;
 
+        /*
         if (theSprite != null)
             theSprite.color = details.color;
+        */
     }
 
 

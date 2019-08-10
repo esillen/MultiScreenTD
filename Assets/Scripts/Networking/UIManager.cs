@@ -7,11 +7,11 @@ using TMPro;
 public class UIManager : BaseNetworkManager {
 
     public static UIManager singleton;
-    private const float TOP_PANEL_MAX_Y = 345;
+    private const float TOP_PANEL_MAX_Y = 600;
 
-    public GameObject topPanelObject, botPanelObject, serverSettingsPanel;
+    public GameObject topPanelObject, botPanelObject, serverSettingsPanel, gameOverPanel;
     public RectTransform topPanelRect, botPanelRect;
-    public TextMeshProUGUI currencyText;
+    public TextMeshProUGUI currencyText, gameOverScoreText;
 
     private TabletPosition position;
     private bool waitingToShutdownUI = false;
@@ -46,13 +46,13 @@ public class UIManager : BaseNetworkManager {
         if (CustomNetworkManager.isServer) {
             serverSettingsPanel.SetActive(false);
             topPanelObject.SetActive(false);
+            gameOverPanel.SetActive(false);
             setPosition(TabletPosition.Right);
         }
     }
 
     #region UI Position
     public void setPosition(TabletPosition pos) {
-        print("Setting pos:" + pos);
         botPanelObject.SetActive(false);
         position = pos;
 
@@ -88,6 +88,10 @@ public class UIManager : BaseNetworkManager {
         botPanelObject.SetActive(true);
     }
 
+    public void onGameOver(float winScore) {
+        gameOverPanel.SetActive(true);
+        gameOverScoreText.text = "Final Time: " + winScore;
+    }
 
     #region Update Text Events
     public void updateCurrency(int currency) {currencyText.text = "Gold: " + currency.ToString();}

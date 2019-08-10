@@ -18,7 +18,7 @@ public class ClientEnemyManager : BaseNetworkManager {
 
     public override void restartGame(RestartMessage restartMessage) {
         foreach (uint id in spawnedEnemies.Keys)
-            Destroy(spawnedEnemies[id]);
+            Destroy(spawnedEnemies[id].gameObject);
         spawnedEnemies.Clear();
     }
 

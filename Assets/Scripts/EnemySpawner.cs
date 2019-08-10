@@ -17,10 +17,11 @@ public class EnemySpawner : BaseNetworkManager {
 
     public override void init() {}
     public override void restartGame(RestartMessage restartMessage) {
+        StopAllCoroutines();
+
         foreach (uint id in spawnedEnemies.Keys)
             Destroy(spawnedEnemies[id]);
         spawnedEnemies.Clear();
-        StopAllCoroutines();
 
         idCounter = 0;
         difficultySettings = GetComponent<DifficultySettings>();

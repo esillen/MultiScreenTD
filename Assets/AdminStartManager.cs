@@ -77,13 +77,19 @@ public class AdminStartManager : BaseNetworkManager {
     private RestartMessage GetDimensionsFromUI() {
         RestartMessage restartMessage = new RestartMessage();
         restartMessage.roadLength = int.Parse(roadLengthInput.text);
-        restartMessage.screenWidth = float.Parse(screenWidthInput.text);
-        restartMessage.screenHeight = float.Parse(screenHeightInput.text);
-        restartMessage.marginTop = float.Parse(marginTopInput.text);
-        restartMessage.marginBottom = float.Parse(marginBottomInput.text);
-        restartMessage.marginLeft = float.Parse(marginLeftInput.text);
-        restartMessage.marginRight = float.Parse(marginRightInput.text);
+        restartMessage.screenWidth = 6;//parseEnglishAndSwedishNotation(screenWidthInput.text);
+        restartMessage.screenHeight = 4;// parseEnglishAndSwedishNotation(screenHeightInput.text);
+        restartMessage.marginTop = 0.4666f;//parseEnglishAndSwedishNotation(marginTopInput.text);
+        restartMessage.marginBottom = 0.4666f;//parseEnglishAndSwedishNotation(marginBottomInput.text);
+        restartMessage.marginLeft = 0.5066666f;//parseEnglishAndSwedishNotation(marginLeftInput.text);
+        restartMessage.marginRight = 0.5066666f; //parseEnglishAndSwedishNotation(marginRightInput.text);
         return restartMessage;
+    }
+
+    private float parseEnglishAndSwedishNotation(string txt) {
+        try { return float.Parse(txt); } 
+        catch { return float.Parse(txt.Replace('.', ','));}
+        return 1;
     }
 
 
