@@ -9,7 +9,7 @@ public class GameManager : BaseNetworkManager {
 
     public override void restartGame(RestartMessage restartMessage) {
         base.restartGame(restartMessage);
-        lifeLeft = DifficultySettings.singleton.startGameHealth;
+        lifeLeft = DifficultySettings.startGameHealth;
         startTime = Time.time;
         isPlaying = true;
 }

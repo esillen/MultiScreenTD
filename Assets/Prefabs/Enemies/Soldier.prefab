@@ -101,12 +101,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6f83824ab063a46860816754c05db7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goal: {fileID: 0}
+  theSprite: {fileID: 212619869064730240}
   speed: 3
+  id: 0
+  goal: {fileID: 0}
   damage: 5
   reward: 1
   health: 5
-  id: 0
 --- !u!135 &135233317483941680
 SphereCollider:
   m_ObjectHideFlags: 1

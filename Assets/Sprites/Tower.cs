@@ -20,11 +20,11 @@ public class Tower : NetworkBehaviour {
     private int numArrowsLeft;
 
     private void Start() {
-        damage = DifficultySettings.singleton.startTowerDamage;
-        maxArrows = DifficultySettings.singleton.startMaxArrows;
-        range = DifficultySettings.singleton.startRange;
-        speed = DifficultySettings.singleton.startSpeed;
-        arrowRespawnRate = DifficultySettings.singleton.startArrowRespawnRate;
+        damage = DifficultySettings.startTowerDamage;
+        maxArrows = DifficultySettings.startMaxArrows;
+        range = DifficultySettings.startRange;
+        speed = DifficultySettings.startSpeed;
+        arrowRespawnRate = DifficultySettings.startArrowRespawnRate;
 
         numArrowsLeft = maxArrows;
         StartCoroutine(RegainArrow());
@@ -55,7 +55,7 @@ public class Tower : NetworkBehaviour {
     }
 
     private Color calculateArrowColor() {
-        int upgradeLevel = damage - DifficultySettings.singleton.startTowerDamage;
+        int upgradeLevel = damage - DifficultySettings.startTowerDamage;
         if (upgradeLevel < 5)
             return new Color(1 - 0.2f * upgradeLevel, 1, 1, 1);
         else if (upgradeLevel < 10)
@@ -71,7 +71,7 @@ public class Tower : NetworkBehaviour {
     }
 
     private Vector3 calculateArrowScale() {
-        return Vector3.one * (1 + 0.1f * (DifficultySettings.singleton.startTowerDamage - damage));
+        return Vector3.one * (1 + 0.1f * (damage - DifficultySettings.startTowerDamage));
     }
 
     private IEnumerator RegainArrow() {

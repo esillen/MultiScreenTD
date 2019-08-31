@@ -14,13 +14,18 @@ public class EnemySpawner : BaseNetworkManager {
     private uint idCounter = 0;
     private DifficultySettings difficultySettings;
     private Dictionary<uint, Enemy> spawnedEnemies = new Dictionary<uint, Enemy>();
+    private Dictionary<int, Color> enemyLevelColors = new Dictionary<int, Color>() {
+        {1, Color.white }, {2, Color.cyan },  {3, Color.green }, {4, Color.gray },  {5, Color.red },
+    };
 
     public override void init() {}
     public override void restartGame(RestartMessage restartMessage) {
         StopAllCoroutines();
 
-        foreach (uint id in spawnedEnemies.Keys)
-            Destroy(spawnedEnemies[id]);
+        foreach (uint id in spawnedEnemies.Keys) {
+            try {Destroy(spawnedEnemies[id].gameObject);} 
+            catch { }
+        }
         spawnedEnemies.Clear();
 
         idCounter = 0;
@@ -57,9 +62,30 @@ public class EnemySpawner : BaseNetworkManager {
         Enemy newEnemy = Instantiate(enemyPrefab, randomPositionInSpawnArea, Quaternion.identity).GetComponent<Enemy>();
         newEnemy.initEnemyTarget(goal, gameManager, idCounter++);
         newEnemy.transform.LookAt(goal.transform);
+        spawnedEnemies.Add(newEnemy.id, newEnemy);
 
-        SpawnEnemyMsg msg = NetworkUtils.cSpawnEnemyMsg(EnemyType.Soldier, newEnemy.transform, newEnemy.speed, newEnemy.id);
+        int enemyLevel = DifficultySettings.singleton.getNewSpawnedEnemyLevel();
+        initEnemyStats(newEnemy, enemyLevel);
+        SpawnedObject visualAtributes = calculateVisualAtributes(newEnemy, enemyLevel);
+        newEnemy.init(visualAtributes);
+
+        SpawnEnemyMsg msg = new SpawnEnemyMsg() { type = EnemyType.Soldier, details = visualAtributes };
         NetworkServer.SendToAll((short)CustomProtocol.SpawnEnemyMsg, msg);
     }
 
+
+    private SpawnedObject calculateVisualAtributes(Enemy newEnemy, int enemyLevel) {
+        Transform trans = newEnemy.transform;
+        Color c = enemyLevel < enemyLevelColors.Keys.Count ? enemyLevelColors[enemyLevel] : Color.red;
+        return new SpawnedObject() {
+            id = newEnemy.id, pos = trans.position, rot = trans.eulerAngles, speed = newEnemy.speed, color = c,
+            scale = Vector3.one * (1 + 0.4f * enemyLevel),
+        };
+    }
+
+    private void initEnemyStats(Enemy theEnemy, int level) {
+        theEnemy.damage = 3 + level * 2;
+        theEnemy.health = 3 + level * 2;
+        theEnemy.rewardLevel = level;
+    }
 }

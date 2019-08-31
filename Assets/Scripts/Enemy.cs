@@ -6,7 +6,7 @@ public class Enemy : VisualObject {
 
     public Transform goal;
     public int damage = 5;
-    public int reward = 1;
+    public int rewardLevel = 1;
     public int health = 5;
 
     private GameManager gameManager;
@@ -36,7 +36,7 @@ public class Enemy : VisualObject {
     public void TakeDamage(int dmg) {
         health -= dmg;
         if(health <= 0) {
-            RewardSystem.getReward(reward);
+            RewardSystem.getReward(rewardLevel);
             destroyVisualObject();
         }
     }

@@ -40,16 +40,18 @@ public class CameraLocationPicker : BaseNetworkManager {
             GameObject cameraLocation = new GameObject("Camera Location");
             GameObject buttonGameObject = Instantiate(buttonPrefab, buttonsParent);
             Button button = buttonGameObject.GetComponent<Button>();
-            SetActionForButton(button, newPositions[i] + Vector3.up * 10, tabletPositions[i]);
+            SetActionForButton(button, newPositions[i] + Vector3.up * 10, tabletPositions[i], i);
             buttons.Add(buttonGameObject);
         }
     }
 
 
-    private void SetActionForButton(Button button, Vector3 newCameraLocation, TabletPosition tabPos) {
+    private void SetActionForButton(Button button, Vector3 newCameraLocation, TabletPosition tabPos, int id) {
         button.onClick.AddListener(() => {
             targetLocation = newCameraLocation;
             UIManager.singleton.setPosition(tabPos);
+            if(tabPos == TabletPosition.Bot || tabPos == TabletPosition.Top)
+                NetworkEconomySystem.setCurrentTower(World2D.getTowerFromID(id));
             });
     }
 

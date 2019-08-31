@@ -54,8 +54,14 @@ public class CustomNetworkManager : NetworkManager {
     }
 
     private void handleRestartGameMsg(NetworkMessage msg) {
-        Debug.LogError("Restarting managers");
         RestartMessage restartMessage = msg.ReadMessage<RestartMessage>();
+        //Quick Hax in lack of priority list
+        DifficultySettings.dmgUpgradeCost = (uint)restartMessage.dmgCost;
+        DifficultySettings.rangeUpgradeCost = (uint)restartMessage.rangeCost;
+        DifficultySettings.cooldownUpgradeCost = (uint)restartMessage.cooldownCost;
+        DifficultySettings.maxArrowsUpgradeCost = (uint)restartMessage.magazineCost;
+        Debug.LogError("Setting cost: " + restartMessage.dmgCost);
+
         restartManagers(new GameObject[] { singleton.universalManagers, singleton.clientManagers }, restartMessage);
     }
     #endregion

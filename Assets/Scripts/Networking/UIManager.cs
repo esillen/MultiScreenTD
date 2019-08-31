@@ -11,6 +11,7 @@ public class UIManager : BaseNetworkManager {
 
     public GameObject topPanelObject, botPanelObject, serverSettingsPanel, gameOverPanel;
     public RectTransform topPanelRect, botPanelRect;
+    public Text dmgBuyTxt, rangeBuyText, cooldownBuyText, magazineBuyText;
     public TextMeshProUGUI currencyText, gameOverScoreText;
 
     private TabletPosition position;
@@ -49,6 +50,11 @@ public class UIManager : BaseNetworkManager {
             gameOverPanel.SetActive(false);
             setPosition(TabletPosition.Right);
         }
+
+        dmgBuyTxt.text = "<b>" + DifficultySettings.dmgUpgradeCost + "$</b>";
+        rangeBuyText.text = "<b>" + DifficultySettings.rangeUpgradeCost + "$</b>";
+        cooldownBuyText.text = "<b>" + DifficultySettings.cooldownUpgradeCost + "$</b>";
+        magazineBuyText.text = "<b>" + DifficultySettings.maxArrowsUpgradeCost + "$</b>";
     }
 
     #region UI Position

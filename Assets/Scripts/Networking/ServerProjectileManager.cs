@@ -38,8 +38,10 @@ public class ServerProjectileManager : BaseNetworkManager {
     public static uint getNewProjectileID() { return projectileIDCounter++;}
 
     public override void restartGame(RestartMessage restartMessage) {
-        foreach (uint id in spawnedProjectiles.Keys)
-            Destroy(spawnedProjectiles[id].gameObject);
+        foreach (uint id in spawnedProjectiles.Keys) {
+            try {Destroy(spawnedProjectiles[id].gameObject);
+            } catch { }
+        }
         spawnedProjectiles.Clear();
     }
 }

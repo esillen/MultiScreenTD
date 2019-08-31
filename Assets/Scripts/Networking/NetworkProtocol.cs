@@ -18,14 +18,14 @@ public class NetworkUtils : MonoBehaviour {
         };
     }
 
-    public static SpawnEnemyMsg cSpawnEnemyMsg(EnemyType type, Transform trans, float speed, uint id=0){
-        return cSpawnEnemyMsg(type, trans.position, trans.localEulerAngles, trans.localScale, speed, id);
+    public static SpawnEnemyMsg cSpawnEnemyMsg(EnemyType type, Transform trans, float speed, Color color, uint id=0){
+        return cSpawnEnemyMsg(type, trans.position, trans.localEulerAngles, trans.localScale, speed, color, id);
     }
 
-    public static SpawnEnemyMsg cSpawnEnemyMsg(EnemyType type, Vector3 pos, Vector3 rot, Vector3 scale, float speed, uint id = 0) {
+    public static SpawnEnemyMsg cSpawnEnemyMsg(EnemyType type, Vector3 pos, Vector3 rot, Vector3 scale, float speed, Color color, uint id = 0) {
         return new SpawnEnemyMsg() {
             type = type, details = new SpawnedObject() {
-                pos = pos, rot = rot, scale = scale, speed = speed, id = id
+                pos = pos, rot = rot, scale = scale, speed = speed, color = color, id = id
             }
         };
     }
@@ -65,6 +65,7 @@ public class RestartMessage : MessageBase {
     public float marginBottom;
     public float marginLeft;
     public float marginRight;
+    public int dmgCost, rangeCost, cooldownCost, magazineCost;
 }
 
 #endregion

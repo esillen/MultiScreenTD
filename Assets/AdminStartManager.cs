@@ -16,6 +16,7 @@ public class AdminStartManager : BaseNetworkManager {
     public InputField marginBottomInput;
     public InputField marginLeftInput;
     public InputField marginRightInput;
+    public InputField dmgCostInput, rangeCostInput, cooldownCostInput, magazineCostInput;
 
     private void Start() {
         RecoverPersistedValues();
@@ -59,7 +60,7 @@ public class AdminStartManager : BaseNetworkManager {
     public void onRestartGamePressed() {
         if (CustomNetworkManager.isConnected) {
             PersistValues();
-            RestartMessage restartMessage = GetDimensionsFromUI();
+            RestartMessage restartMessage = getDataFromRestartUI();
             CustomNetworkManager.restartGame(restartMessage);
         }
     }
@@ -74,7 +75,7 @@ public class AdminStartManager : BaseNetworkManager {
         PlayerPrefs.SetString(Constants.PlayerPrefsKeys.MARGIN_RIGHT, marginRightInput.text);
     }
 
-    private RestartMessage GetDimensionsFromUI() {
+    private RestartMessage getDataFromRestartUI() {
         RestartMessage restartMessage = new RestartMessage();
         restartMessage.roadLength = int.Parse(roadLengthInput.text);
         restartMessage.screenWidth = 6;//parseEnglishAndSwedishNotation(screenWidthInput.text);
@@ -83,6 +84,10 @@ public class AdminStartManager : BaseNetworkManager {
         restartMessage.marginBottom = 0.4666f;//parseEnglishAndSwedishNotation(marginBottomInput.text);
         restartMessage.marginLeft = 0.5066666f;//parseEnglishAndSwedishNotation(marginLeftInput.text);
         restartMessage.marginRight = 0.5066666f; //parseEnglishAndSwedishNotation(marginRightInput.text);
+        restartMessage.dmgCost = int.Parse(dmgCostInput.text);
+        restartMessage.rangeCost = int.Parse(rangeCostInput.text);
+        restartMessage.cooldownCost = int.Parse(cooldownCostInput.text);
+        restartMessage.magazineCost = int.Parse(magazineCostInput.text);
         return restartMessage;
     }
 

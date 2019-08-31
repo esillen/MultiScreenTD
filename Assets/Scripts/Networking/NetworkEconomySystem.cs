@@ -6,13 +6,17 @@ using UnityEngine.Networking;
 
 public class NetworkEconomySystem : BaseNetworkManager {
 
+    private static NetworkEconomySystem singleton;
+
     public int startCurrency = 100;
 
     private int currency = 0;
-    public Tower currentTower;
+    private Tower currentTower;
     private Action buyCallback;
+    private Dictionary<PurchaseType, uint> purchuaseCosts = new Dictionary<PurchaseType, uint>();
 
     public override void init() {
+        singleton = this;
         if (CustomNetworkManager.isServer)
             NetworkServer.RegisterHandler((short)CustomProtocol.PurchuaseMsg, handleTradeMsg);
         else {
@@ -20,7 +24,6 @@ public class NetworkEconomySystem : BaseNetworkManager {
             NetworkManager.singleton.client.RegisterHandler((short)CustomProtocol.PurchuaseMsg, handlePurchuasecceptedMsg);
         }
     }
-
 
     #region Client
     public void handleCurrencyMsg(NetworkMessage data) {
@@ -32,16 +35,24 @@ public class NetworkEconomySystem : BaseNetworkManager {
     public void handlePurchuasecceptedMsg(NetworkMessage data) {buyCallback.Invoke();}
     private void sendPurchuaseMsg(PurchaseType type, Action buyFunc) {
         buyCallback = buyFunc;
-        NetworkManager.singleton.client.Send((short)CustomProtocol.PurchuaseMsg, new UintMsg() { x = 10});
+        NetworkManager.singleton.client.Send((short)CustomProtocol.PurchuaseMsg, new UintMsg() { x = purchuaseCosts[type]});
     }
     public void buyDamage() { sendPurchuaseMsg(PurchaseType.Damage, () => DifficultySettings.incrementTowerDamage(currentTower)); }
     public void buyRange() { sendPurchuaseMsg(PurchaseType.Range, () => DifficultySettings.incrementTowerRange(currentTower)); }
     public void buyCooldown() { sendPurchuaseMsg(PurchaseType.Cooldown, () => DifficultySettings.incrementRespawnRate(currentTower)); }
     public void buyMagazine() { sendPurchuaseMsg(PurchaseType.Magazine, () => DifficultySettings.incrementTowerMaxArrows(currentTower)); }
+   
+    public static void setCurrentTower(Tower tower) { singleton.currentTower = tower; }
     #endregion
 
     #region Server
     public override void restartGame(RestartMessage restartMessage) {
+        purchuaseCosts.Clear();
+        purchuaseCosts.Add(PurchaseType.Damage, DifficultySettings.dmgUpgradeCost);
+        purchuaseCosts.Add(PurchaseType.Range, DifficultySettings.rangeUpgradeCost);
+        purchuaseCosts.Add(PurchaseType.Cooldown, DifficultySettings.cooldownUpgradeCost);
+        purchuaseCosts.Add(PurchaseType.Magazine, DifficultySettings.maxArrowsUpgradeCost);
+
         currency = startCurrency;
         broadcastCurrentCurrencyLevel();
     }

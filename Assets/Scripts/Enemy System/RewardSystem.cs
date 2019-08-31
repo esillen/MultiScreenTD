@@ -12,7 +12,7 @@ public class RewardSystem : MonoBehaviour {
     }
 
 	public static int getReward(int level) {
-        int reward = 1;
+        int reward = level * 2;
         singleton.theEconomySystem.currencyEvent(reward);
         return reward;
     }

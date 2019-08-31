@@ -6,8 +6,13 @@ public class Arrow : ProjectileBase {
 
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag(Constants.Tags.ENEMY)) {
-            other.GetComponent<Enemy>().TakeDamage(details.dmg);
-            destroyVisualObject();
+            Enemy theEnemy = other.GetComponent<Enemy>();
+            int enemyStartHP = theEnemy.health;
+            theEnemy.TakeDamage(details.dmg);
+
+            details.dmg -= enemyStartHP;
+            if(details.dmg <= 0)
+                destroyVisualObject();
         }
     }
 
